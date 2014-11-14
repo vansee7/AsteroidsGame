@@ -15,6 +15,7 @@ import java.io.IOException;
 public class AsteroidsGame extends PApplet {
 
 SpaceShip Earth;
+Asteroid [] lotsRocks;
 Star [] galaxy;
 
 public void setup() 
@@ -22,6 +23,16 @@ public void setup()
   size(500,500);
   background(0);
   Earth = new SpaceShip();
+  lotsRocks = new Asteroid[10];
+  galaxy = new Star[150];
+  for(int i = 0; i < galaxy.length; i++)
+  {
+    galaxy[i] = new Star();
+  }
+  for(int i = 0; i < lotsRocks.length; i++)
+  {
+    lotsRocks[i] = new Asteroid();
+  }
 }
 
 public void draw() 
@@ -29,11 +40,14 @@ public void draw()
   background(0);
   Earth.show();
   Earth.move();
-  galaxy = new Star[20];
   for(int i = 0; i < galaxy.length; i++)
   {
-    galaxy[i] = new Star();
     galaxy[i].show();
+  }
+  for(int i = 0; i < lotsRocks.length; i++)
+  {
+    lotsRocks[i].show();
+    lotsRocks[i].move();
   }
 }
 
@@ -81,6 +95,55 @@ class SpaceShip extends Floater
   public double getDirectionY() {return myDirectionY;}
   public void setPointDirection(int degrees) {myPointDirection=degrees;}
   public double getPointDirection() {return (int)myPointDirection;}
+}
+
+class Asteroid extends Floater
+{
+  private int rotSpeed;
+  public Asteroid()
+  {
+    if(Math.random() < .5f)
+      rotSpeed = 3;
+    else
+      rotSpeed = -3;
+    corners = 6;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+    xCorners[0] = -11;
+    yCorners[0] = -8;
+    xCorners[1] = 7;
+    yCorners[1] = -8;
+    xCorners[2] = 13;
+    yCorners[2] = 0;
+    xCorners[3] = 6;
+    yCorners[3] = 10;
+    xCorners[4] = -11;
+    yCorners[4] = 8;
+    xCorners[5] = -5;
+    yCorners[5] = 0;
+    myColor = 255;
+    myCenterX = (int)(Math.random()*500);
+    myCenterY = (int)(Math.random()*500);
+    myDirectionX = (int)(Math.random()*5); 
+    myDirectionY = (int)(Math.random()*5);
+    myPointDirection = 0;
+  }
+  public void setX(int x) {myCenterX=x;}
+  public int getX() {return (int)myCenterX;}
+  public void setY(int y) {myCenterY=y;}
+  public int getY() {return (int)myCenterY;}
+  public void setDirectionX(double x) {myDirectionX=x;}
+  public double getDirectionX() {return myDirectionX;}
+  public void setDirectionY(double y) {myDirectionY=y;}
+  public double getDirectionY() {return myDirectionY;}
+  public void setPointDirection(int degrees) {myPointDirection=degrees;}
+  public double getPointDirection() {return (int)myPointDirection;}
+ 
+  public void move()
+  {
+    rotate(rotSpeed);
+    super.move();
+  }
 }
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
