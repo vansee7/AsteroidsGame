@@ -1,5 +1,5 @@
 SpaceShip Earth;
-Asteroid [] lotsRocks;
+ArrayList <Asteroid> lotsRocks = new ArrayList <Asteroid>();
 Star [] galaxy;
 
 public void setup() 
@@ -7,15 +7,14 @@ public void setup()
   size(500,500);
   background(0);
   Earth = new SpaceShip();
-  lotsRocks = new Asteroid[10];
   galaxy = new Star[150];
   for(int i = 0; i < galaxy.length; i++)
   {
     galaxy[i] = new Star();
   }
-  for(int i = 0; i < lotsRocks.length; i++)
+  for(int i = 0; i < 5; i++)
   {
-    lotsRocks[i] = new Asteroid();
+    lotsRocks.add(new Asteroid());
   }
 }
 
@@ -28,10 +27,20 @@ public void draw()
   {
     galaxy[i].show();
   }
-  for(int i = 0; i < lotsRocks.length; i++)
+  for(int i = 0; i < lotsRocks.size(); i++)
   {
-    lotsRocks[i].show();
-    lotsRocks[i].move();
+    lotsRocks.get(i).show();
+    lotsRocks.get(i).move();
+  }
+  //find distance between spaceship and asteroids
+  for(int i=0; i< lotsRocks.size(); i++)
+  {
+    float d = dist(Earth.getX(), Earth.getY(), lotsRocks.get(i).getX(), lotsRocks.get(i).getY());
+    if(d < 20)
+  {
+    lotsRocks.remove(i);
+  }
+  //System.out.println(d);  
   }
 }
 
@@ -87,9 +96,9 @@ class Asteroid extends Floater
   public Asteroid()
   {
     if(Math.random() < .5)
-      rotSpeed = 3;
+      rotSpeed = 1;
     else
-      rotSpeed = -3;
+      rotSpeed = -1;
     corners = 6;
     xCorners = new int[corners];
     yCorners = new int[corners];
